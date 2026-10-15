@@ -1,0 +1,231 @@
+:host{all:initial}
+.layer{position:absolute;left:0;top:0;width:0;height:0;font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",system-ui,sans-serif;color:#1f1f1f}
+
+/* ping mark: foot sits on the clicked point. lolPing timing: pop .28s, rings, glow, ground, 1.6s bob */
+.mark{position:absolute;width:46px;height:46px;margin:-46px 0 0 -23px;pointer-events:none;--pc:#f2c518}
+.mark.k-x{--pc:#ff3b55}.mark.k-go{--pc:#f2b320}.mark.k-ship{--pc:#56d43c}
+.mark img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;transform-origin:50% 95%;transform:rotate(var(--tilt));filter:drop-shadow(0 0 6px var(--pc));animation:pop .28s cubic-bezier(.2,1.6,.4,1) both,bob 1.6s ease-in-out .3s infinite}
+.mark .ground{position:absolute;left:50%;bottom:-6px;width:44px;height:12px;margin-left:-22px;border-radius:50%;background:radial-gradient(closest-side,var(--pc),transparent);opacity:.55}
+.mark .ring{position:absolute;left:50%;bottom:-14px;width:44px;height:28px;margin-left:-22px;border-radius:50%;border:2px solid var(--pc);box-shadow:0 0 8px var(--pc);opacity:0;animation:ring .6s ease-out both}
+.mark .ring.r2{animation-delay:.22s}
+.mark.leave{animation:leave .6s cubic-bezier(.5,0,.8,.4) both}
+@keyframes pop{0%{transform:rotate(var(--tilt)) translateY(-18px) scale(.3);opacity:0}100%{transform:rotate(var(--tilt));opacity:1}}
+@keyframes bob{50%{translate:0 -3px}}
+@keyframes ring{0%{opacity:1;transform:scale(.3)}100%{opacity:0;transform:scale(1.6)}}
+@keyframes leave{to{transform:translateY(-40px) scale(.6);opacity:0}}
+
+/* wheel */
+.wheel{position:absolute;width:0;height:0;pointer-events:none}
+.wheel svg{position:absolute;left:-120px;top:-120px;width:240px;height:240px;overflow:visible;filter:drop-shadow(0 8px 18px rgba(0,0,0,.35));animation:win .12s ease-out both}
+.wedge .bg{fill:#1e2f33;fill-opacity:.94;stroke:#c8aa6e;stroke-opacity:.25}
+.wedge .hi{fill:var(--c);opacity:0;transition:opacity .1s}
+.wedge .ext{opacity:.9}
+.wedge.hot .hi{opacity:.32}
+.ico{filter:grayscale(1) sepia(.75) saturate(1.3) brightness(1.15);transition:filter .1s}
+.ico.hot{filter:drop-shadow(0 0 4px rgba(255,255,255,.35))}
+.ico > *{transform-box:fill-box;transform-origin:center;transition:transform .1s}
+.ico.hot > *{transform:scale(1.18)}
+.lbl{font:800 6.3px/1 -apple-system,"Segoe UI",system-ui,sans-serif;letter-spacing:.6px;fill:#1fa9e0}
+@keyframes win{0%{opacity:0;transform:scale(.85)}100%{opacity:1;transform:none}}
+
+@keyframes dot{50%{transform:translateY(-4px);opacity:.5}}
+@keyframes blink{50%{opacity:0}}
+@keyframes cin{from{opacity:0;transform:translateY(6px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes cout{to{opacity:0;transform:translateY(4px) scale(.97)}}
+
+@media (prefers-reduced-motion:reduce){.mark img,.mark .ring,.card,.wheel svg{animation:none}}
+
+/* answer card: quiet frosted glass; the ping colour is the only accent */
+.card{--k:#f5c518;position:absolute;width:356px;max-width:calc(100vw - 16px);pointer-events:auto;box-sizing:border-box;border-radius:14px;
+  background:rgba(24,25,29,.9);-webkit-backdrop-filter:blur(18px) saturate(1.4);backdrop-filter:blur(18px) saturate(1.4);
+  box-shadow:0 0 0 1px rgba(255,255,255,.09) inset,0 0 0 1px rgba(0,0,0,.35),0 1px 1px rgba(0,0,0,.2),0 12px 28px -6px rgba(0,0,0,.35),0 30px 60px -20px rgba(0,0,0,.45);
+  font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",system-ui,sans-serif;color:#ececee;animation:cin .24s cubic-bezier(.2,1.2,.4,1) both}
+.card.k-x{--k:#ff5a67}.card.k-go{--k:#ffb02e}.card.k-ship{--k:#4fd67a}
+.card.out{animation:cout .18s ease-in both}
+.hd{display:flex;align-items:center;gap:8px;padding:12px 10px 0 14px;color:var(--k);font:700 11px/1 -apple-system,"Segoe UI",system-ui,sans-serif;letter-spacing:1.2px}
+.hd img{width:18px;height:18px;object-fit:contain}
+.hd span{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cl{all:unset;cursor:pointer;display:grid;place-items:center;width:24px;height:24px;border-radius:7px;color:rgba(255,255,255,.4);font-size:17px;line-height:1}
+.cl:hover{color:#fff;background:rgba(255,255,255,.08)}
+.mdl{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:5px;max-width:170px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:500 11.5px/1 -apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",system-ui,sans-serif;letter-spacing:0;color:rgba(255,255,255,.55);padding:5px 7px;border-radius:7px;transition:background .12s,color .12s}
+.mdl:hover{background:rgba(255,255,255,.08);color:#fff}
+.mdl::after{content:"";width:0;height:0;border:3.5px solid transparent;border-top-color:currentColor;margin-top:4px}
+.bd{padding:10px 16px 12px;max-height:340px;overflow:auto;font-size:14.5px;line-height:1.7;color:#ececee;word-wrap:break-word;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.18) transparent}
+.bd p{margin:0 0 .6em}.bd p:last-child{margin:0}
+.bd b,.bd strong{color:#fff;font-weight:650}
+.bd code{background:rgba(255,255,255,.08);color:#fff;border-radius:5px;padding:1px 5px;font:12.5px ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.bd pre{background:rgba(0,0,0,.28);border-radius:9px;padding:9px 11px;overflow:auto;font:12.5px/1.55 ui-monospace,"SF Mono",Menlo,Consolas,monospace;white-space:pre-wrap;color:#e6e6e8}
+.bd pre code{all:unset}
+.bd .err{color:#ff8a8a}
+.bd .opt{all:unset;cursor:pointer;margin-left:6px;color:var(--k);font-weight:600}
+.ft{display:flex;gap:2px;padding:6px 8px 8px;border-top:1px solid rgba(255,255,255,.07)}
+.ft button{all:unset;cursor:pointer;font:500 12.5px/1 -apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",system-ui,sans-serif;padding:8px 10px;border-radius:8px;color:rgba(255,255,255,.6);transition:background .12s,color .12s}
+.ft button:hover{background:rgba(255,255,255,.08);color:#fff}
+.ft button:active{transform:translateY(1px)}
+.dots i{display:inline-block;width:5px;height:5px;margin-right:5px;border-radius:50%;background:var(--k);animation:dot 1s ease-in-out infinite}
+.dots i:nth-child(2){animation-delay:.15s}.dots i:nth-child(3){animation-delay:.3s}
+.caret{display:inline-block;width:2px;height:16px;margin-left:2px;vertical-align:-3px;background:var(--k);animation:blink .9s steps(2) infinite}
+@keyframes dot{50%{transform:translateY(-3px);opacity:.4}}
+@keyframes blink{50%{opacity:0}}
+@keyframes cin{from{opacity:0;transform:translateY(6px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes cout{to{opacity:0;transform:translateY(3px) scale(.98)}}
+.menu{position:absolute;top:40px;right:8px;z-index:3;width:240px;max-height:300px;display:flex;flex-direction:column;background:rgba(30,31,36,.97);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);border-radius:11px;box-shadow:0 0 0 1px rgba(255,255,255,.1) inset,0 16px 36px -10px rgba(0,0,0,.6);overflow:hidden}
+.menu input{all:unset;box-sizing:border-box;margin:6px 6px 0;padding:8px 10px;border-radius:7px;background:rgba(255,255,255,.06);color:#ececee;font:12.5px system-ui,"Microsoft YaHei",sans-serif}
+.menu input::placeholder{color:rgba(255,255,255,.35)}
+.menu .ls{overflow:auto;padding:2px 5px 6px;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.18) transparent}
+.menu h6{margin:10px 8px 4px;font:600 10.5px/1 system-ui,"Microsoft YaHei",sans-serif;letter-spacing:.3px;color:rgba(255,255,255,.38)}
+.menu button{all:unset;display:flex;align-items:center;box-sizing:border-box;width:100%;cursor:pointer;padding:7px 9px;border-radius:6px;font:13px/1.3 -apple-system,"Segoe UI","Microsoft YaHei",system-ui,sans-serif;color:rgba(255,255,255,.82);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.menu button:hover{background:rgba(255,255,255,.08);color:#fff}
+.menu button.on{color:#fff}.menu button.on::after{content:"✓";margin-left:auto;padding-left:8px;color:var(--k);font-weight:700}
+.menu button.def{color:rgba(255,255,255,.55)}
+.menu i{display:block;padding:12px 10px;color:rgba(255,255,255,.45);font:12.5px system-ui,"Microsoft YaHei",sans-serif;font-style:normal}
+.toast{position:absolute;transform:translateX(-50%);padding:9px 14px;border-radius:10px;background:rgba(24,25,29,.92);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);color:#fff;font:500 13px/1 -apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",system-ui,sans-serif;box-shadow:0 0 0 1px rgba(255,255,255,.08) inset,0 10px 26px rgba(0,0,0,.35);transition:opacity .4s}
+.toast.out{opacity:0}
+
+/* sidebar */
+.side{position:fixed;top:16px;right:12px;z-index:5;width:384px;max-width:calc(100vw - 24px);max-height:calc(100vh - 32px);display:flex;flex-direction:column;pointer-events:auto;box-sizing:border-box;border-radius:16px;
+  background:rgba(22,23,27,.86);-webkit-backdrop-filter:blur(22px) saturate(1.5);backdrop-filter:blur(22px) saturate(1.5);
+  box-shadow:0 0 0 1px rgba(255,255,255,.09) inset,0 0 0 1px rgba(0,0,0,.4),0 18px 50px -12px rgba(0,0,0,.5);
+  font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",system-ui,sans-serif;color:#ececee;animation:sin .26s cubic-bezier(.2,1.1,.3,1) both;transition:left .22s cubic-bezier(.2,1,.3,1),right .22s cubic-bezier(.2,1,.3,1),top .22s cubic-bezier(.2,1,.3,1)}
+.side.dock-l{animation-name:sinl}
+.side.drag{transition:none;cursor:grabbing;box-shadow:0 0 0 1px rgba(255,255,255,.12) inset,0 0 0 1px rgba(0,0,0,.4),0 28px 70px -10px rgba(0,0,0,.6)}
+.side.out{animation:sout .18s ease-in both}
+.sh{flex:none;display:flex;align-items:center;gap:8px;padding:10px 8px 10px 10px;cursor:grab;user-select:none;-webkit-user-select:none;touch-action:none}
+.side.drag .sh{cursor:grabbing}
+.grip{display:grid;grid-template-columns:repeat(2,3px);gap:3px;padding:2px 3px;opacity:.35}
+.grip i{width:3px;height:3px;border-radius:50%;background:#fff}
+.sh:hover .grip{opacity:.6}
+.sh img{width:18px;height:18px;object-fit:contain}
+.sh b{font:700 13px/1 -apple-system,"Segoe UI",system-ui,sans-serif;letter-spacing:.2px;color:#fff}
+.sh .n{flex:1;font:600 11px/1 system-ui,sans-serif;font-style:normal;color:rgba(255,255,255,.4)}
+.sb{all:unset;cursor:pointer;display:grid;place-items:center;width:26px;height:26px;border-radius:8px;color:rgba(255,255,255,.45);font-size:17px;line-height:1}
+.sb:hover{color:#fff;background:rgba(255,255,255,.08)}
+.feed{flex:1 1 auto;min-height:0;overflow:auto;padding:0 8px 8px;display:flex;flex-direction:column;gap:8px;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.16) transparent}
+.side .card{position:relative;width:auto;max-width:none;left:auto;top:auto;background:rgba(255,255,255,.045);-webkit-backdrop-filter:none;backdrop-filter:none;border-radius:12px;box-shadow:0 0 0 1px rgba(255,255,255,.06) inset;animation:fin .3s cubic-bezier(.2,1.1,.3,1) both;flex:none}
+.side .card.out{animation:cout .18s ease-in both}
+.side .card .bd{max-height:none}
+.qt{all:unset;cursor:pointer;display:block;box-sizing:border-box;margin:8px 14px 0;padding:2px 0 2px 10px;border-left:2px solid var(--k);color:rgba(255,255,255,.5);font:12.5px/1.5 -apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",system-ui,sans-serif;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.qt:hover{color:rgba(255,255,255,.8)}
+.side.min{width:auto!important} /* the stored width is for the open sidebar, not the pill */
+.side.min .feed,.side.min .mn{display:none}
+.side.min .sh{cursor:pointer;padding-right:6px}
+.side.min .n{flex:none;min-width:8px}
+.menu{position:fixed;top:auto;right:auto;z-index:9}
+@keyframes sin{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:none}}
+@keyframes sinl{from{opacity:0;transform:translateX(-24px)}to{opacity:1;transform:none}}
+@keyframes sout{to{opacity:0;transform:scale(.97)}}
+@keyframes fin{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+
+/* follow-up chat inside a card */
+.bd .an + .uq{margin-top:12px}
+.uq{margin:0 0 8px auto;width:fit-content;max-width:86%;padding:6px 11px;border-radius:12px 12px 4px 12px;background:color-mix(in srgb,var(--k) 18%,rgba(255,255,255,.06));color:#fff;font-size:13.5px;line-height:1.5;word-wrap:break-word}
+.ask{display:flex;align-items:flex-end;gap:6px;margin:0 10px 8px;padding:5px 5px 5px 11px;border-radius:11px;background:rgba(0,0,0,.22);box-shadow:0 0 0 1px rgba(255,255,255,.07) inset;transition:box-shadow .15s}
+.ask:focus-within{box-shadow:0 0 0 1px color-mix(in srgb,var(--k) 55%,transparent) inset}
+.ask textarea{all:unset;flex:1;height:20px;min-height:20px;max-height:120px;padding:4px 0;resize:none;overflow:auto;white-space:pre-wrap;word-wrap:break-word;color:#ececee;font:13.5px/1.45 -apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",system-ui,sans-serif}
+.ask textarea::placeholder{color:rgba(255,255,255,.32)}
+.ask .send{all:unset;flex:none;display:grid;place-items:center;width:28px;height:28px;border-radius:8px;cursor:pointer;background:var(--k);color:#16171b;transition:opacity .15s,transform .1s}
+.ask .send:disabled{opacity:.25;cursor:default}
+.ask .send:not(:disabled):active{transform:scale(.92)}
+.side .card .ft{border-top:0;padding-top:0}
+.card.busy .simpler{opacity:.4;pointer-events:none}
+
+/* v0.7: marks you can touch */
+.mark img{pointer-events:auto;cursor:grab}
+.mark.drag img{cursor:grabbing;filter:drop-shadow(0 6px 10px rgba(0,0,0,.35)) drop-shadow(0 0 8px var(--pc))}
+.mark.drag{z-index:3}.mark.drag .ring,.mark.drag .ground{opacity:0}
+.mark .mx{all:unset;position:absolute;right:-6px;top:-4px;width:17px;height:17px;display:grid;place-items:center;border-radius:50%;background:rgba(22,23,27,.92);color:#fff;font:600 12px/1 system-ui,sans-serif;box-shadow:0 0 0 1px rgba(255,255,255,.18) inset,0 2px 6px rgba(0,0,0,.35);cursor:pointer;pointer-events:auto;opacity:0;transform:scale(.6);transition:opacity .12s,transform .12s}
+.mark:hover .mx,.mark.hl .mx{opacity:1;transform:none}
+.mark .mx:hover{background:#ff5a67}
+.mark.hl img{filter:drop-shadow(0 0 10px var(--pc)) brightness(1.12)}
+.mark.flash img{animation:mflash .9s ease-out}
+@keyframes mflash{0%,100%{scale:1}25%{scale:1.35}50%{scale:.95}75%{scale:1.12}}
+.mark.gone{visibility:hidden}
+
+/* v0.7: card details */
+.side .card{transition:box-shadow .15s}
+.side .card.hl{box-shadow:0 0 0 1px color-mix(in srgb,var(--k) 55%,transparent) inset}
+.side .card.flash{animation:cflash .9s ease-out}
+@keyframes cflash{0%{box-shadow:0 0 0 2px var(--k) inset}100%{box-shadow:0 0 0 1px rgba(255,255,255,.06) inset}}
+.turn + .turn{margin-top:14px}
+.an.think{display:flex;align-items:center;gap:8px;min-height:22px;color:rgba(255,255,255,.4);font-size:12px}
+.an .tm{font-variant-numeric:tabular-nums}
+.an .stopped{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:6px;background:rgba(255,255,255,.07);color:rgba(255,255,255,.45);font-size:11.5px}
+.an .ln{min-height:1em}
+.an .gap{height:.55em}
+.an ul,.an ol{margin:.25em 0 .35em;padding-left:1.35em}
+.an li{margin:.15em 0}
+.an li::marker{color:var(--k)}
+.an h4{margin:.5em 0 .2em;font-size:14.5px;font-weight:700;color:#fff}
+.an a{color:var(--k);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--k) 45%,transparent)}
+.an i{font-style:italic;color:#fff}
+.an .opt{margin-left:8px}
+.pre{display:flex;flex-wrap:wrap;gap:6px;padding:0 12px 8px;animation:fin .25s ease both}
+.pre button{all:unset;cursor:pointer;padding:5px 10px;border-radius:999px;font:500 12px/1.2 -apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",system-ui,sans-serif;color:rgba(255,255,255,.72);background:rgba(255,255,255,.06);box-shadow:0 0 0 1px rgba(255,255,255,.08) inset;transition:background .12s,color .12s,transform .1s}
+.pre button:hover{background:color-mix(in srgb,var(--k) 22%,rgba(255,255,255,.06));color:#fff}
+.pre button:active{transform:scale(.96)}
+.ft{align-items:center}
+.ft .meta{margin-left:auto;padding-right:6px;color:rgba(255,255,255,.3);font:500 11px/1 system-ui,sans-serif;font-variant-numeric:tabular-nums}
+.ft .copy.ok{color:#4fd67a}
+.card.busy .ask .send{opacity:1;background:rgba(255,255,255,.14);color:#fff}
+.qt{transition:color .12s}
+.rz{position:absolute;top:14px;bottom:14px;width:8px;cursor:ew-resize}
+.side.dock-r .rz{left:-4px}.side.dock-l .rz{right:-4px}
+.rz::after{content:"";position:absolute;top:50%;left:3px;width:2px;height:36px;margin-top:-18px;border-radius:2px;background:rgba(255,255,255,.0);transition:background .15s}
+.rz:hover::after,.side.drag .rz::after{background:rgba(255,255,255,.35)}
+.side.min .rz{display:none}
+@media (prefers-reduced-motion:reduce){.side,.side .card,.pre,.mark.flash img,.side .card.flash{animation:none!important;transition:none!important}}
+.pre{display:none}
+.side .card:first-child .pre.on,.side .card:hover .pre.on,.side .card:focus-within .pre.on{display:flex}
+.ask{padding:4px 4px 4px 11px;align-items:center}
+.ask .send{width:26px;height:26px}
+.ask .send:disabled{opacity:1;background:rgba(255,255,255,.07);color:rgba(255,255,255,.3)}
+/* v0.8 — gist bubble next to the ? and tappable terms */
+.mark .bub{all:unset;position:absolute;left:56px;bottom:26px;box-sizing:border-box;width:max-content;max-width:300px;min-height:30px;display:flex;align-items:flex-start;gap:6px;padding:7px 10px 7px 12px;border-radius:14px 14px 14px 4px;
+  background:rgba(22,23,27,.9);-webkit-backdrop-filter:blur(18px) saturate(1.5);backdrop-filter:blur(18px) saturate(1.5);
+  box-shadow:0 0 0 1px rgba(255,255,255,.1) inset,0 0 0 1px rgba(0,0,0,.35),0 10px 28px -8px rgba(0,0,0,.45),2px 0 0 0 var(--pc) inset;
+  color:#f1f1f3;font:500 13.5px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",system-ui,sans-serif;text-align:left;
+  pointer-events:auto;cursor:pointer;transform-origin:0 100%;animation:bubin .28s cubic-bezier(.2,1.3,.35,1) both;transition:opacity .15s,transform .15s}
+.mark .bub .g{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;word-break:break-word}
+.mark .bub i{font-style:normal;color:var(--pc);opacity:.0;font-weight:700;transition:opacity .15s}
+.mark .bub.ok i,.mark .bub.bad i{opacity:.85}
+.mark .bub:hover{transform:translateY(-1px);box-shadow:0 0 0 1px rgba(255,255,255,.16) inset,0 0 0 1px rgba(0,0,0,.35),0 14px 30px -8px rgba(0,0,0,.5),2px 0 0 0 var(--pc) inset}
+.mark .bub.think{padding:9px 12px}
+.mark .bub .dots i{background:var(--pc);opacity:1}
+.mark .bub .caret{height:13px;vertical-align:-2px;background:var(--pc)}
+.mark .bub.bad{color:#ffb3b9}
+.mark.flip .bub{left:auto;right:56px;border-radius:14px 14px 4px 14px;transform-origin:100% 100%}
+.mark.old .bub{animation:none;opacity:0;transform:scale(.92);pointer-events:none}
+.mark.old:hover .bub,.mark.old.hl .bub{opacity:1;transform:none;pointer-events:auto}
+.mark.drag .bub,.mark.leave .bub{animation:none;opacity:0}
+@keyframes bubin{from{opacity:0;transform:translateY(4px) scale(.9)}to{opacity:1;transform:none}}
+.an .term{all:unset;cursor:pointer;color:inherit;border-bottom:1.5px dotted color-mix(in srgb,var(--k) 75%,transparent);transition:background .12s,color .12s;border-radius:3px}
+.an .term:hover{background:color-mix(in srgb,var(--k) 18%,transparent);color:#fff}
+@media (prefers-reduced-motion:reduce){.mark .bub{animation:none}}
+.an > .ln:first-child{font-weight:600;color:#fff}
+.pre .pk{align-self:center;margin-right:2px;padding:0 2px;color:color-mix(in srgb,var(--k) 80%,#fff);font:600 11px/1 -apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",system-ui,sans-serif;letter-spacing:.3px;opacity:.85}
+/* v0.10 — code copy, privacy gate, history, first-run hint */
+.an .cb{position:relative}
+.an .cb .cbc{all:unset;position:absolute;top:6px;right:6px;padding:3px 8px;border-radius:7px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.7);font:500 11px/1.2 -apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",system-ui,sans-serif;cursor:pointer;opacity:.0;transition:opacity .12s,background .12s}
+.an .cb:hover .cbc,.an .cb .cbc.ok{opacity:1}.an .cb .cbc:hover{background:color-mix(in srgb,var(--k) 30%,rgba(255,255,255,.08));color:#fff}.an .cb .cbc.ok{color:#9be59b}
+.an .cb pre{padding-right:56px;white-space:pre-wrap;word-break:break-word}
+.card.gate{padding:14px}
+.gate .gt{display:flex;flex-direction:column;gap:3px;font-size:13.5px}.gate .gt b{color:#fff}.gate .gt span{color:rgba(255,255,255,.6);font-size:12.5px}
+.gate .gb{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.gate .gb button{all:unset;cursor:pointer;padding:6px 11px;border-radius:999px;font:500 12.5px/1.2 -apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",system-ui,sans-serif;background:rgba(255,255,255,.07);color:rgba(255,255,255,.8);box-shadow:0 0 0 1px rgba(255,255,255,.09) inset}
+.gate .gb .go1{background:var(--k);color:#1a1a1a;font-weight:650;box-shadow:none}.gate .gb button:hover{filter:brightness(1.1)}
+.side .hlist{display:none;overflow:auto;padding:4px 8px 10px;flex:1 1 auto;min-height:0}
+.side.hist .hlist{display:block}.side.hist .feed{display:none}.side.hist .hs{color:#f5c518}
+.hlist .hh{display:flex;align-items:baseline;gap:8px;padding:6px 6px 8px;color:#fff;font-size:13px}.hlist .hh span{flex:1;color:rgba(255,255,255,.4);font-size:11.5px}
+.hlist .hclr{all:unset;cursor:pointer;color:rgba(255,255,255,.5);font-size:12px}.hlist .hclr:hover{color:#ff8a93}
+.hlist .hi{all:unset;cursor:pointer;display:flex;flex-direction:column;gap:2px;box-sizing:border-box;width:100%;padding:9px 10px;border-radius:10px;transition:background .12s}
+.hlist .hi:hover{background:rgba(255,255,255,.06)}
+.hlist .hi b{color:#ececee;font-weight:550;font-size:13px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.hlist .hi span{color:rgba(255,255,255,.45);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hlist .hi em{font-style:normal;color:rgba(255,255,255,.32);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hlist .hi.here em{color:color-mix(in srgb,#f5c518 70%,transparent)}
+.hlist .hn{padding:18px 8px;color:rgba(255,255,255,.45);font-size:12.5px;text-align:center}
+.toast.hint{display:flex;align-items:center;gap:10px;padding:10px 16px 10px 12px;white-space:nowrap;font-size:13.5px;line-height:1.45}
+.toast.hint img{width:30px;height:30px;object-fit:contain}.toast.hint small{opacity:.6;font-size:11.5px}
+.toast.hint kbd{display:inline-block;padding:1px 6px;margin:0 2px;border-radius:5px;background:rgba(255,255,255,.14);box-shadow:0 1px 0 rgba(0,0,0,.4);font:600 12px/1.4 ui-monospace,Menlo,Consolas,monospace}
+.side.min .hlist,.side.min .hs{display:none}
+.menu .nt{margin:2px 8px 6px;padding:7px 9px;border-radius:8px;background:rgba(245,197,24,.09);color:rgba(255,224,140,.9);font:12px/1.45 -apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",system-ui,sans-serif}

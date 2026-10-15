@@ -1,0 +1,147 @@
+/* Huh? Ping PDF reader — warm light grey, white pages */
+:root{color-scheme:light}
+*{box-sizing:border-box}
+html,body{margin:0;background:#ecebe8;font:14px/1.5 -apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",system-ui,sans-serif;color:#26262a}
+header{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:10px;height:48px;padding:0 150px 0 16px;background:rgba(248,247,245,.86);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:0 1px 0 rgba(0,0,0,.07)}
+header img{width:22px;height:22px}
+header .nm{flex:1;min-width:0;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+header .pg{color:#77767a;font-variant-numeric:tabular-nums;font-size:13px}
+header button,header a{all:unset;cursor:pointer;display:inline-grid;place-items:center;min-width:30px;height:30px;padding:0 9px;border-radius:9px;color:#3b3b40;font-size:13px}
+header button:hover,header a:hover{background:rgba(0,0,0,.06)}
+header .hint{color:#8a8990;font-size:12.5px;white-space:nowrap}
+header .hint kbd{padding:1px 6px;border-radius:5px;background:#fff;box-shadow:0 0 0 1px rgba(0,0,0,.1),0 1px 0 rgba(0,0,0,.08);font:600 11.5px/1.5 ui-monospace,Menlo,Consolas,monospace;color:#3b3b40}
+#pages{display:flex;flex-direction:column;align-items:center;gap:14px;padding:22px 16px 60px}
+.page{position:relative;background:#fff;box-shadow:0 0 0 1px rgba(0,0,0,.06),0 6px 20px rgba(0,0,0,.08);border-radius:2px;overflow:hidden}
+.page canvas{position:absolute;inset:0;width:100%;height:100%}
+.msg{margin:18vh auto 0;max-width:460px;text-align:center;color:#6a6970}
+.msg b{display:block;color:#26262a;font-size:16px;margin-bottom:6px}
+.msg button{all:unset;cursor:pointer;margin-top:14px;padding:8px 16px;border-radius:999px;background:#26262a;color:#fff;font-weight:600}
+body.drag #pages{outline:2px dashed #b9b7b2;outline-offset:-10px}
+.textLayer{
+  position:absolute;
+  text-align:initial;
+  inset:0;
+  overflow:clip;
+  opacity:1;
+  line-height:1;
+  -webkit-text-size-adjust:none;
+     -moz-text-size-adjust:none;
+          text-size-adjust:none;
+  forced-color-adjust:none;
+  transform-origin:0 0;
+  caret-color:CanvasText;
+  z-index:0;
+}
+
+.textLayer.highlighting{
+    touch-action:none;
+  }
+
+.textLayer :is(span,br){
+    color:transparent;
+    position:absolute;
+    white-space:pre;
+    cursor:text;
+    transform-origin:0% 0%;
+  }
+
+.textLayer  > :not(.markedContent),.textLayer .markedContent span:not(.markedContent){
+    z-index:1;
+  }
+
+.textLayer span.markedContent{
+    top:0;
+    height:0;
+  }
+
+.textLayer span[role="img"]{
+    -webkit-user-select:none;
+       -moz-user-select:none;
+            user-select:none;
+    cursor:default;
+  }
+
+.textLayer .highlight{
+    --highlight-bg-color:rgb(180 0 170 / 0.25);
+    --highlight-selected-bg-color:rgb(0 100 0 / 0.25);
+    --highlight-backdrop-filter:none;
+    --highlight-selected-backdrop-filter:none;
+  }
+
+@media screen and (forced-colors: active){
+
+.textLayer .highlight{
+      --highlight-bg-color:transparent;
+      --highlight-selected-bg-color:transparent;
+      --highlight-backdrop-filter:var(--hcm-highlight-filter);
+      --highlight-selected-backdrop-filter:var(
+        --hcm-highlight-selected-filter
+      );
+  }
+    }
+
+.textLayer .highlight{
+
+    margin:-1px;
+    padding:1px;
+    background-color:var(--highlight-bg-color);
+    -webkit-backdrop-filter:var(--highlight-backdrop-filter);
+            backdrop-filter:var(--highlight-backdrop-filter);
+    border-radius:4px;
+  }
+
+.appended:is(.textLayer .highlight){
+      position:initial;
+    }
+
+.begin:is(.textLayer .highlight){
+      border-radius:4px 0 0 4px;
+    }
+
+.end:is(.textLayer .highlight){
+      border-radius:0 4px 4px 0;
+    }
+
+.middle:is(.textLayer .highlight){
+      border-radius:0;
+    }
+
+.selected:is(.textLayer .highlight){
+      background-color:var(--highlight-selected-bg-color);
+      -webkit-backdrop-filter:var(--highlight-selected-backdrop-filter);
+              backdrop-filter:var(--highlight-selected-backdrop-filter);
+    }
+
+.textLayer ::-moz-selection{
+    background:rgba(0 0 255 / 0.25);
+    background:color-mix(in srgb, AccentColor, transparent 75%);
+  }
+
+.textLayer ::selection{
+    background:rgba(0 0 255 / 0.25);
+    background:color-mix(in srgb, AccentColor, transparent 75%);
+  }
+
+.textLayer br::-moz-selection{
+    background:transparent;
+  }
+
+.textLayer br::selection{
+    background:transparent;
+  }
+
+.textLayer .endOfContent{
+    display:block;
+    position:absolute;
+    inset:100% 0 0;
+    z-index:0;
+    cursor:default;
+    -webkit-user-select:none;
+       -moz-user-select:none;
+            user-select:none;
+  }
+
+.textLayer.selecting .endOfContent{
+    top:0;
+  }
+

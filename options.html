@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><title>Huh? Ping 设置</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#EDECE9;font:14px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",system-ui,sans-serif;color:#1f1f1f}
+main{max-width:560px;margin:36px auto 60px;padding:0 16px}
+h1{display:flex;align-items:center;gap:10px;font-size:22px;margin:0 0 2px}h1 img{width:36px}
+.sub{color:#777;margin:0 0 18px}
+kbd{background:#f2f0ea;border:1px solid #e3dfd5;border-bottom-width:2px;border-radius:5px;padding:0 6px;font:12px ui-monospace,monospace}
+.box{background:#fff;border:1px solid rgba(0,0,0,.07);border-radius:20px;padding:18px 20px;margin-top:14px}
+.box h2{font-size:15px;margin:0 0 4px;display:flex;align-items:center;gap:8px}
+.box h2 .n{width:22px;height:22px;border-radius:50%;background:#1e2f33;color:#f2c518;font:800 12px/22px system-ui;text-align:center}
+.hint{color:#888;font-size:13px;margin:0}
+.st{display:flex;align-items:flex-start;gap:10px;margin-top:12px;padding:12px 14px;border-radius:14px;background:#f7f6f2}
+.dot{flex:none;width:10px;height:10px;border-radius:50%;margin-top:6px;background:#c9c4b8}
+.st.on .dot{background:#4caf50;box-shadow:0 0 0 4px #4caf5022}.st.off .dot{background:#e8a33a}
+.st b{display:block}.st span{color:#666;font-size:13px}
+code{background:#f2f0ea;border-radius:5px;padding:1px 6px;font:12.5px ui-monospace,monospace}
+.agents{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.ag{padding:7px 12px;border-radius:999px;border:1px solid #e3dfd5;background:#fff;font-size:13px;cursor:pointer;user-select:none}
+.ag.in{background:#1e2f33;color:#fff;border-color:#1e2f33}.ag.in::before{content:"✓ "}
+.ag.no{opacity:.45;cursor:default}
+.paste{display:flex;gap:8px;margin-top:12px}
+input,select,textarea{box-sizing:border-box;width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:12px;font:inherit;background:#fff}
+input:focus,select:focus,textarea:focus{outline:2px solid #f2c518;border-color:transparent}
+textarea{resize:vertical;line-height:1.6;font:13px/1.6 ui-monospace,Menlo,Consolas,monospace}
+button.main{flex:none;padding:0 18px;border:0;border-radius:12px;background:#1e2f33;color:#f2c518;font:700 14px/1 inherit;cursor:pointer}
+button.main:disabled{opacity:.5}
+.msg{font-size:13px;margin-top:8px;min-height:1px;color:#666}.msg.ok{color:#2e7d32}.msg.bad{color:#c0392b}
+.conn{border-top:1px solid #f0ede6;padding:11px 0}.conn:first-of-type{border-top:0}
+.ch{display:flex;align-items:center;gap:8px}
+.ch .nm{font-weight:700}.ch .tg{font-size:11px;color:#8a7a3a;background:#f6efd2;border-radius:999px;padding:2px 7px}
+.ch .ms{flex:1;color:#777;font-size:13px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.x{all:unset;cursor:pointer;color:#bbb;font-size:18px;padding:0 4px}.x:hover{color:#c0392b}
+.ed{display:none;margin-top:10px}.conn.open .ed{display:block}
+.chips{display:flex;flex-wrap:wrap;gap:6px;max-height:190px;overflow:auto;margin-top:8px}
+.chip{padding:5px 10px;border-radius:999px;border:1px solid #e3dfd5;font-size:12.5px;cursor:pointer;background:#fff;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis;user-select:none}
+.chip.in{background:#fff3c4;border-color:#f2c518}
+.chip.more{color:#777;border-style:dashed;background:#faf9f6}.chip.more:hover{color:#1e2f33;border-color:#c9c4b8}
+.ed .flt{margin-top:8px;padding:7px 11px;font-size:13px;border-radius:10px}
+.ed .addm{margin-top:8px;padding:7px 11px;font-size:13px;border-radius:10px}
+.mnote{font-size:12.5px;color:#888;margin-top:6px}.mnote.bad{color:#b36b00}
+.lnk{all:unset;cursor:pointer;color:#999;font-size:12px;margin-top:8px;display:inline-block}.lnk:hover{color:#1e2f33;text-decoration:underline}
+.spin{flex:none;width:11px;height:11px;border:2px solid #e3dfd5;border-top-color:#1e2f33;border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.empty{color:#999;font-size:13px;padding:6px 0}
+label{display:block;font-weight:600;font-size:13px;margin:14px 0 5px}
+details{margin-top:14px}summary{cursor:pointer;color:#666;font-weight:600;padding:6px 2px}
+.row{display:flex;gap:8px;align-items:center;margin-top:10px;font-size:13.5px}.row input{width:auto}
+#saved{position:fixed;right:18px;bottom:18px;background:#1e2f33;color:#f2c518;border-radius:999px;padding:8px 14px;font-size:13px;opacity:0;transition:opacity .2s}
+#saved.show{opacity:1}
+ul{color:#555;padding-left:18px;margin:8px 0 0;font-size:13.5px}
+</style></head>
+<body><main>
+<h1><img src="assets/icon-128.png" alt="">Huh? Ping</h1>
+<p class="sub">按住 <kbd>Alt</kbd> 或 <kbd>G</kbd> 点一下 = 问 ?；按住拖一下 = 五格轮盘。下面两种接法选一种就能用。</p>
+
+<section class="box">
+  <h2><span class="n">1</span>用你已经有的订阅</h2>
+  <p class="hint">Codex、Claude Code、Cursor、WorkBuddy、Gemini CLI、pi，电脑上登录过就行。</p>
+  <div class="st" id="bst"><i class="dot"></i><div><b id="bt">正在找小桥…</b><span id="bs"></span></div></div>
+  <div class="agents" id="agents"></div>
+</section>
+
+<section class="box">
+  <h2><span class="n">2</span>或者粘贴一个 API key</h2>
+  <p class="hint">DeepSeek、OpenAI、Grok、OpenRouter、Gemini、Kimi、通义、智谱、Groq、硅基流动都行，会自动认出是哪家。</p>
+  <div class="paste"><input id="key" type="password" placeholder="粘贴 key，例如 sk-…" autocomplete="off"><button class="main" id="addKey">接入</button></div>
+  <div class="msg" id="kmsg"></div>
+</section>
+
+<section class="box">
+  <h2>已接入</h2>
+  <div id="conns"></div>
+  <label>默认用哪个模型回答</label><select id="pick"></select>
+  <p class="hint" style="margin-top:6px">回答卡片右上角随时能换别的模型。</p>
+</section>
+
+<section class="box">
+  <h2>预设</h2>
+  <p class="hint">回答下面的快捷按钮会按你点的东西自动换一组：论文、英语、图片、视频、代码、报错、按钮、数据，其余用「通用」。一行一个，写成「名字 = 要它做的事」，用 [论文] 这样的标题分组。{lang} 会换成你设的回答语言。删掉某一组就用内置的那组。</p>
+  <textarea id="presets" rows="14" spellcheck="false"></textarea>
+</section>
+
+<section class="box">
+  <h2>隐私名单</h2>
+  <p class="hint">在这些网站上打问号，会先问你一句，确认了才把页面内容和截图发出去。一行一个，<code>*</code> 是通配符，开头加 <code>!</code> 表示放行。打过的问号和回答只存在这台电脑上。</p>
+  <textarea id="privateSites" rows="6" spellcheck="false"></textarea>
+</section>
+
+<details class="box">
+<summary>高级设置</summary>
+<label>回答语言</label><input id="lang" type="text" placeholder="中文">
+<label>“继续”发送的文字</label><input id="continueText" type="text">
+<label>“Push &amp; Merge”发送的文字</label><input id="shipText" type="text">
+<label>网页上没有对话框时，“继续 / Push &amp; Merge”交给谁</label>
+<select id="termAgent"><option value="none">不交给终端 agent</option><option value="claude">Claude Code</option><option value="codex">Codex</option><option value="cursor">Cursor</option><option value="codebuddy">CodeBuddy（WorkBuddy）</option><option value="gemini">Gemini CLI</option><option value="pi">pi</option></select>
+<div class="row"><input id="termFirst" type="checkbox"><span>就算网页上有对话框，也优先交给终端 agent</span></div>
+<label>终端 agent 的项目目录</label><input id="agentDir" type="text" placeholder="留空 = 小桥所在的目录">
+<label>自定义 API 地址（OpenAI 兼容，自动识别不出来时用）</label>
+<div class="paste"><input id="cUrl" type="text" placeholder="https://…/v1"><input id="cKey" type="password" placeholder="key（本地模型可不填）"><button class="main" id="addCustom">接入</button></div>
+<div class="msg" id="cmsg"></div>
+<label>小桥地址</label><input id="bridgeUrl" type="text" placeholder="http://127.0.0.1:47321">
+<div class="row"><input id="sound" type="checkbox"><span>音效</span></div>
+<div class="row"><input id="bubbleFirst" type="checkbox"><span>回答先冒泡：一句话直接显示在问号旁边，点开再看详细</span></div>
+<div class="row"><input id="pdfReader" type="checkbox"><span>PDF 用 Huh? 阅读器打开（这样 PDF 里也能打问号；Chrome 自带的阅读器不让插件进去）</span></div>
+<div class="row"><input id="alwaysShot" type="checkbox"><span>每次都附带截图（更准，但更慢、更费 token）</span></div>
+<ul>
+<li>? HUH? → 解释你点的地方；在回答上再点 ? 换个更简单的说法</li>
+<li>! THAT'S WRONG → 检查那里哪里不对</li>
+<li>⚔ KEEP GOING → 在对话里发“继续”</li>
+<li>✓ PUSH &amp; MERGE → 发 commit / push / 合并</li>
+<li>👍 GOT IT → 清掉所有 ping 和卡片</li>
+</ul>
+</details>
+<div id="saved">已保存 ✓</div>
+</main><script src="options.js"></script></body></html>
